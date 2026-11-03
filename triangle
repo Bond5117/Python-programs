@@ -1,0 +1,18 @@
+import pygame
+import math
+
+clock = pygame.time.Clock()
+pygame.init()
+
+screen = pygame.display.set_mode((700, 700))
+
+running = True
+while running:
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    #pygame.draw.polygon(screen, (255, 255, 0), [(0, 700), (700, 700), (700, 0)])
+    pygame.draw.rect(screen, (255, 255, 0), (0, 100, 200, 150))
+    pygame.display.flip()
+pygame.quit

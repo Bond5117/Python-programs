@@ -1,0 +1,17 @@
+import pygame
+import math
+
+color = (0, 0, 255)
+width = 800
+height = 800
+screen = pygame.display.set_mode((width, height))
+clock = pygame.time.Clock()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    pygame.draw.line(screen, color, (width / 2, height), (width / 2, height / 2), 2)
+    pygame.display.flip()

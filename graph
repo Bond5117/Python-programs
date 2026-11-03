@@ -1,0 +1,45 @@
+import pygame
+import math
+
+pygame.init()
+
+screen = pygame.display.set_mode((5000, 5000))
+
+center_x = 250
+center_y = 250
+
+old_x = None
+old_y = None
+
+x = -5
+scale = 40   # pixels per math unit
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    y = math.sinh(x) / math.cosh(x)
+
+    # Convert math coordinates to screen coordinates
+    screen_x = center_x + x * scale
+    screen_y = center_y - y * scale
+
+    if old_x is not None:
+        pygame.draw.line(
+            screen,
+            (125, 125, 125),
+            (old_x, old_y),
+            (screen_x, screen_y),
+            1
+        )
+
+    old_x = screen_x
+    old_y = screen_y
+
+    pygame.display.flip()
+
+    x += 0.01
+
+pygame.quit()

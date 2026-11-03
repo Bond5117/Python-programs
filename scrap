@@ -1,0 +1,64 @@
+import pygame
+import math
+
+pygame.init()
+
+WIDTH, HEIGHT = 800, 800
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+
+WHITE = (255, 255, 255)
+BROWN = (100, 60, 20)
+
+MAX_DEPTH = 15
+current_depth = 1
+
+last_update = pygame.time.get_ticks()
+delay = 500  # milliseconds
+
+
+def draw_branch(x, y, length, angle, depth):
+    # Stop when we've reached the allowed depth
+    if depth == 0:
+        return
+
+    # Calculate the end of this branch
+    x2 = x + length * math.cos(math.radians(angle))
+    y2 = y - length * math.sin(math.radians(angle))
+
+    # Draw this branch
+    pygame.draw.line(screen, BROWN, (x, y), (x2, y2), depth)
+
+    # Draw the two child branches
+    draw_branch(x2, y2, length * 0.75, angle + 30, depth - 1)
+    draw_branch(x2, y2, length * 0.75, angle - 30, depth - 1)
+
+
+running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Increase the visible recursion depth every 0.5 seconds
+    now = pygame.time.get_ticks()
+    if now - last_update > delay and current_depth < MAX_DEPTH:
+        current_depth += 1
+        last_update = now
+
+    screen.fill(WHITE)
+
+    # Draw only up to the current recursion depth
+    draw_branch(
+        WIDTH / 2,
+        HEIGHT,
+        180,
+        90,
+        current_depth
+    )
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
